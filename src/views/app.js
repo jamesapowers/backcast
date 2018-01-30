@@ -7,19 +7,32 @@ var AppView = Backbone.View.extend({
     this.render();
   },
 
+  events: {
+    'click': 'handleClick'
+  },
+
+  handleClick: function(e) {
+    if (e.target.className === 'video-list-entry-title') {
+      console.log($(e.currentTarget));
+      new VideoPlayerView({
+        el: this.$('.player'),
+        collection: this.videos
+      }).render(e.target);
+    }
+  },
 
   render: function() {
     this.$el.html(this.template());
     //this.$el(VideoPlayerView.prototype.render());
     new VideoPlayerView({
       el: this.$('.player'),
-      collection: this.collection
+      collection: this.videos
     }).render();
     
     new VideoListView({
       el: this.$('.list'),
       collection: this.videos
-    });
+    }).render();
     
     new SearchView({
       el: this.$('.search'),
